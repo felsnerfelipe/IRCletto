@@ -39,7 +39,7 @@ FormatPRIVMSG:
 	add rdi, [LastInputSize]
 	dec rdi
 
-	mov rcx, [lastInputSize]
+	mov rcx, [LastInputSize]
 	dec rcx
 	.move:
 
