@@ -3,7 +3,7 @@
 ; this is a simple IRC application written in pure x86
 ; it uses linux syscalls
 
-; this file is part of the code, it defines functions that mess with stdin or stdout
+; this file defines functions that mess with stdin or stdout
 
 GetSizeTerminal:
 ; function that manually stores the size of the terminal

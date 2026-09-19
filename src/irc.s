@@ -35,6 +35,11 @@ section .data
 	    db  185, 30, 166, 168 			  ; 185.30.166.168
 	    times 8 db 0 		
 
+
+	CurrentChannel db "#the-dudes               " ; 25 bytes max
+
+	StrPRIVMSG db "PRIVMSG "; 8 bytes
+
 										      ;/strings/
 	StrServerConnect db 'connected to server!'; 20 bytes
 	StrSentThis      db 'Sent This to server:';   "

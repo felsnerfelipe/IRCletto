@@ -1,33 +1,43 @@
 
-section .data
 
-	CurrentChannel db "                         " ; 25 bytes max
+; this code was written by Felsner Felipe on 2026
+; this is a simple IRC application written in pure x86
+; it uses linux syscalls
 
-	StrPRIVMSG db "PRIVMSG "; 8 bytes
-
-section .text
+;this file defines functions responsable for parsing and interpreting user commands
 
 ParseInput:
 ;main function that uses all the functions defined here to parse and treat user input
 
 	;see if user typed anything
 	call ReadUserInput
-	call WriteToServer
+	call CheckIfCommand
+	;call WriteToServer
 
 CheckIfCommand:
-;function that checks if User inputed string starts with an "/" and return 0 
-;if true and 1 if false thru rax register
+;function that checks if User inputed string starts with an "/" 
 
-	mov al, byte [UserBuffer]
-	cmp al, "/"
-	je .True
-
-		mov rax, 1
-		ret
+	xor rax, rax
+	cmp rax, [LastInputSize]
+	je .NoInput
 		
-	.True:
+		mov al, byte [UserBuffer]
+		cmp al, "/"
+		je .True
+		
+			call FormatPRIVMSG
+			ret
+			
+		.True:
 
-		xor rax,rax
+			mov al," "
+			mov [UserBuffer], al
+
+			call WriteToServer
+			
+			ret
+
+	.NoInput:
 		ret
 
 FormatPRIVMSG:
@@ -37,25 +47,24 @@ FormatPRIVMSG:
 	; len(StrPRIVMSG)+len(CurrentChannel)+':'=34
 	mov rdi, UserBuffer
 	add rdi, [LastInputSize]
-	dec rdi
+	dec rdi					; rdi points to last char in UserBuffer
 
-	mov rcx, [LastInputSize]
-	dec rcx
+	mov rcx, [LastInputSize] 
 	.move:
 
-		mov rax, [rdi]
-		mov [rdi+34], rax ; copy to another location
-
-		dec rdi
+		mov al, byte [rdi]
+		mov [rdi+34], al ; copy to another location
 		
 		xor rax,rax
-		mov [rdi], rax	; zero the original
+		mov [rdi], al ; zero the original
+		
+		dec rdi
 		
 		loop .move
 
 	; put StrPRIVMSG at the start
-
-	mov rcx, 8
+	; len(StrPRIVMSG) = 8
+	mov rcx, 8 ; rcx - 1 = i
 	.copy:
 
 		dec rcx
@@ -66,36 +75,41 @@ FormatPRIVMSG:
 		add rdi, rcx ; UserBuffer+i
 		add rdx, rcx ; StrPRIVMSG+i
 		
-		mov rax, [rdx] ; put value of StrPRIVMSG+i into rax
-		mov [rdi], rax ; put value of rax into UserBuffer+i
+		mov al, byte [rdx] ; put value of StrPRIVMSG+i into rax
+		mov [rdi], al ; put value of rax into UserBuffer+i
 		
 		inc rcx
 
 		loop .copy	
 
-	mov rcx, 25
+	; len(CurrentChannel) = 25
+	mov rcx, 25 ; rcx -1 = i
 		.paste:
 	
 			dec rcx
 			
 			mov rdi, UserBuffer	; pointer to UserBuffer
-			add rdi,8 
+			add rdi, 8 ; because len(StrPRIVMSG) = 8
 			mov rdx, CurrentChannel ; pointer to CurrentChannel
 			
 			add rdi, rcx ; UserBuffer+i
 			add rdx, rcx ; StrPRIVMSG+i
 			
-			mov rax, [rdx] ; put value of CurrentChannel+i into rax
-			mov [rdi], rax ; put value of rax into UserBuffer+i
+			mov al, byte [rdx] ; put value of CurrentChannel+i into rax
+			mov [rdi], al ; put value of rax into UserBuffer+i
 			
 			inc rcx
 	
 			loop .paste
 
 	mov rdi,UserBuffer
-	add rdi, 33
-	mov rax, ':'
-	mov [rdi], rax
+	add rdi, 33 ; because len(StrPRIVMSG)+len(CurrentChannel) = 33
+	mov al, ':'
+	mov [rdi], al
+
+	mov rax, [LastInputSize]
+	add rax, 34
+	mov [LastInputSize], rax
 
 	call WriteToServer
 

@@ -3,8 +3,7 @@
 ; this is a simple IRC application written in pure x86
 ; it uses linux syscalls
 
-; this file is part of the code, it defines socket and networking functions 
-
+; this file defines socket and networking functions 
 
 
 CreateSocket:
@@ -65,7 +64,7 @@ WriteToServer:
 	add rax, [LastInputSize]
 	dec rax
 	
-	mov dl, [rax] 										; put last char in rsi
+	mov dl, byte [rax]									; put last char in rsi
 	
 	cmp dl, 10
 	je .write

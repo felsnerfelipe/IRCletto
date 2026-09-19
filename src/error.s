@@ -3,7 +3,7 @@
 ; this is a simple IRC application written in pure x86
 ; it uses linux syscalls
 
-; this file is part of the code, it defines error check functions
+;this file defines error check functions
 
 ; CODE | ERROR
 ; -1     generic error
