@@ -180,12 +180,17 @@ footer {
     gap: 20px;
 }
 
-.screenshot {
-    height: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%; /* Ajuster selon besoin */
+.video-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.video-container video {
+  width: 100%;
+  max-width: 1920px;
+  height: auto;
+  display: block;
 }
 
 /* Resize images */
