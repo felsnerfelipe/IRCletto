@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+    <title>BareIRC</title>
+    <link rel="stylesheet" href="website/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ryanoasis/nerd-fonts@latest/css/proto-nerd-font.css">
+</head>
+<body>
+    <a class="logo" href="/">
+        <img src="website/assets/logo.png" alt="BareIRC" />
+    </a>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="https://github.com/felsnerfelipe/bareIRC" class="nav-link">Source</a></li>
+            <li><a href="website/download.html" class="nav-link">Download</a></li>
+            <li><a href="website/about.html" class="nav-link">About</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Début du contenu avec marges latérales -->
+    <div class="container">
+        <div class="screenshot">
+            <img src="https://placehold.co/600x400" alt="Screenshot" />
+        </div>
+        <h2>C'est quoi</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula lacus, dapibus id luctus quis, scelerisque sed urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras sit amet eleifend quam, ultrices feugiat arcu. Nam consequat felis eros, vitae semper eros porta sit amet. Aenean ut ex posuere nisi pharetra malesuada sollicitudin sed quam. Nam sed commodo enim. Praesent pulvinar aliquam rhoncus. Fusce varius mi mauris, id accumsan mauris blandit vehicula. Duis dignissim vel felis ut dapibus. </p>
+        <h2>Pourquoi</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula lacus, dapibus id luctus quis, scelerisque sed urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras sit amet eleifend quam, ultrices feugiat arcu. Nam consequat felis eros, vitae semper eros porta sit amet. Aenean ut ex posuere nisi pharetra malesuada sollicitudin sed quam. Nam sed commodo enim. Praesent pulvinar aliquam rhoncus. Fusce varius mi mauris, id accumsan mauris blandit vehicula. Duis dignissim vel felis ut dapibus. </p>
+        <h2>Auteur</h2>
+        <p>FELSNER Felipe</p>
+    </div>
+    <script>
+        // 1. Gestion du menu Hamburger (mobile)
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // 2. Gestion automatique de la page active dans la navbar
+        document.addEventListener("DOMContentLoaded", function() {
+            let cheminActuel = window.location.pathname.split("/").pop();
+
+            if (cheminActuel === "" || cheminActuel === "/") {
+                cheminActuel = "index.html";
+            }
+
+            const liens = document.querySelectorAll(".nav-link");
+            liens.forEach(lien => {
+                let hrefLien = lien.getAttribute("href");
+                
+                if (hrefLien === cheminActuel) {
+                    lien.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
