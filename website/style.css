@@ -1,7 +1,7 @@
 
 /*darkmode*/
 :root {
-    --logo-color-invert-percentage:100%;
+    --logo-color-invert-percentage:0%;
     --main-color:black; 
     --secondary-color: white;
     background-color: black;
@@ -11,7 +11,7 @@
 /* Light mode */
 @media (prefers-color-scheme: light) {
     :root {
-    --logo-color-invert-percentage:0%;
+    --logo-color-invert-percentage:100%;
     --logo-image:"./assets/logo_black.jpeg";
     --main-color:white; 
     --secondary-color: black;
