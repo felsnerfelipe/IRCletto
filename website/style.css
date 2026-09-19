@@ -48,6 +48,10 @@ footer {
     height: auto;
 }
 
+.author{
+    border-radius: 10px;
+}
+
 /* Resize images */
 .logo img {
     filter: invert(var(--logo-color-invert-percentage));
