@@ -1,6 +1,6 @@
-<img src="./Images/Logo.png" alt="BareIRC" width="40%" height="5%">
+<img src="./Images/Logo.png" alt="bbIRC's logo" width="40%" height="5%">
 
-bareIRC is an open-source IRC client aimed at being an extremely bare-bones IRC client.
+bbIRC is an open-source IRC client aimed at being an extremely bare-bones IRC client.
 It is 100% coded in x86_64 assembly, so it is compact and lightweight, with
 no library or framework behind it. It is really simple and concise while
 allowing you to see what's happening under the hood.
