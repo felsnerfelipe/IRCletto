@@ -25,8 +25,7 @@ for the moment there is no real way of "installing" IRCletto, but you can compil
 ```
 git clone https://github.com/felsnerfelipe/IRCletto.git
 cd IRCletto  
-nasm -f elf64 irc.s -o bin/IRCletto.o
-ld bin/IRCletto.o -o bin/IRCletto
+make run
 ```
 the executable should now be in the IRCletto/bin/ folder.
 
