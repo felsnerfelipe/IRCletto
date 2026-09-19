@@ -3,6 +3,8 @@
 :root {
     --main-color:black; 
     --secondary-color: white;
+    background-color: black;
+    color:white;
 }
 
 /* Light mode */
@@ -10,6 +12,8 @@
     :root {
     --main-color:white; 
     --secondary-color: black;
+    background-color: white;
+    color:black;
     }
 }
 
