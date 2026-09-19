@@ -8,7 +8,7 @@ allowing you to see what's happening under the hood.
 ## Features
 
 >[!IMPORTANT]
->bareIRC is in early development, and many of the features described here are not yet available. The features have two tags: WIP (Work In Progress), NIY (Not Implemented Yet).
+>bbIRC is in early development, and many of the features described here are not yet available. The features have two tags: WIP (Work In Progress), NIY (Not Implemented Yet).
 
 bbIRC does not aim to be a feature-rich IRC client such as [weechat](https://weechat.org/)
  or [senpai](https://sr.ht/~taiite/senpai/)
