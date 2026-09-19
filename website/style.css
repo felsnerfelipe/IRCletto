@@ -28,6 +28,12 @@ body {
     font-size: 17px;
 }
 
+footer {
+    color:var(--main-color);
+    background-color: var(--secondary-color);
+    text-align: center;
+}
+
 .container {
     max-width: 800px; /* Limite la largeur du texte */
     margin-left: auto;

@@ -6,7 +6,7 @@
 </head>
 <body>
     <a class="logo" href="/">
-        <img src="website/assets/logo.png" alt="BareIRC" />
+        <img src="website/assets/logo_white.png" alt="BareIRC" />
     </a>
     <nav class="navbar">
         <ul class="nav-links">
@@ -26,13 +26,20 @@
         <div class="screenshot">
             <img src="https://placehold.co/600x400" alt="Screenshot" />
         </div>
-        <h2>C'est quoi</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula lacus, dapibus id luctus quis, scelerisque sed urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras sit amet eleifend quam, ultrices feugiat arcu. Nam consequat felis eros, vitae semper eros porta sit amet. Aenean ut ex posuere nisi pharetra malesuada sollicitudin sed quam. Nam sed commodo enim. Praesent pulvinar aliquam rhoncus. Fusce varius mi mauris, id accumsan mauris blandit vehicula. Duis dignissim vel felis ut dapibus. </p>
-        <h2>Pourquoi</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula lacus, dapibus id luctus quis, scelerisque sed urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras sit amet eleifend quam, ultrices feugiat arcu. Nam consequat felis eros, vitae semper eros porta sit amet. Aenean ut ex posuere nisi pharetra malesuada sollicitudin sed quam. Nam sed commodo enim. Praesent pulvinar aliquam rhoncus. Fusce varius mi mauris, id accumsan mauris blandit vehicula. Duis dignissim vel felis ut dapibus. </p>
+        <h2>What is it?</h2>
+        <p>Bare-Bones IRC is an extremely simplistic and raw IRC client written in pure assembly code.</p>
+        <p>In this bare-bones setup YOU tell the server what you want to do. YOU decide what to send. No GUI, No funny business, Just you and the server itself at the end of the connection.</p>
+        <h2>Why?</h2>
+        <ul>
+            <li><p>bbIRC is mainly a tool for people that are triyng to debug an IRC connection. It is way more simple to use than, for exemple, netcat because it offer simple quality of life offers like automatic PING responses (WIP) and simple macros (WIP) while still outputing raw server data.</p></li>
+            <li><p>bbIRC can also be used as a normal IRC client for those that really dispise having an usable and confortable experience. but it is highly discoraged.</p></li>
+        </ul>
         <h2>Auteur</h2>
         <p>FELSNER Felipe</p>
     </div>
+
+    <footer><p>© 2026 Your Name · <a href="LICENSE" >MIT License</a></p></footer>
+
     <script>
         // 1. Gestion du menu Hamburger (mobile)
         const hamburger = document.querySelector('.hamburger');
@@ -60,4 +67,5 @@
             });
         });
     </script>
+
 </body>
