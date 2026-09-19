@@ -6,7 +6,7 @@ all:
 	cd src && nasm -f elf64 irc.s -o ../bin/IRCletto.o
 	ld bin/IRCletto.o -o $(APP)
 
-run: 
+run: all
 	$(APP)
 
 debug:
