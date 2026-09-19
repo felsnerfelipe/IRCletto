@@ -1,3 +1,20 @@
+
+/*darkmode*/
+:root {
+    --main-color:black; 
+    --secondary-color: white;
+}
+
+/* Light mode */
+@media (prefers-color-scheme: light) {
+    :root {
+    --main-color:white; 
+    --secondary-color: black;
+    }
+}
+
+
+
 body {
     margin: 0px;
     font-family: 'Proto Nerd Font', 'Fira Code', monospace;
@@ -30,11 +47,11 @@ body {
     align-items: center;
     padding: 0em 1em;
     font-weight: bold;
-    color: white;
-    box-shadow: 0 1px 1px rgba(102,119,136,0.55);
-    text-shadow: 0 1px 1px rgba(51,68,85,0.3);
+    color: var(--main-color);
+    /*box-shadow: 0 1px 1px rgba(102,119,136,0.55);*/
+    /*text-shadow: 0 1px 1px rgba(51,68,85,0.3);*/
     white-space: nowrap;
-    border-bottom: solid 3px black;
+    border-bottom: solid 3px var(--secondary-color);
 }
 
 .nav-links {
@@ -54,7 +71,7 @@ body {
 .nav-links a {
     position: relative;
     text-decoration: none;
-    color: black;
+    color: var(--secondary-color);
     padding: 8px 12px;
     display: inline-block;
     overflow: hidden; /* Masque le fond quand il est en bas */
@@ -69,7 +86,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: var(--secondary-color);
     z-index: -1;
     
     transform-origin: bottom; /* Fixe l'ancrage en bas */
@@ -83,13 +100,13 @@ body {
 }
 
 .nav-links a:hover {
-    color: white;
+    color: var(--main-color);
 }
 
 /* Style appliqué automatiquement au bouton de la page active */
 .nav-links a.active {
-    color: black; /* Garde la couleur du texte noire (ou change-la si tu préfères) */
-    border: 3px solid black; /* Ajoute un contour noir de 2 pixels */
+    color: var(--secondary-color); /* Garde la couleur du texte noire (ou change-la si tu préfères) */
+    border: 3px solid var(--secondary-color); /* Ajoute un contour noir de 2 pixels */
     font-weight: bold;
 }
 
@@ -109,18 +126,26 @@ body {
 .hamburger span {
     width: 25px;
     height: 3px;
-    background-color: black;
+    background-color: var(--secondary-color);
 }
 
 @media (max-width: 768px) {
     .nav-links {
         display: none;
         flex-direction: column;
-        background-color: #333;
+        background-color: var(--secondary-color);
         position: absolute;
         top: 50px;
         right: 0;
         width: 100%;
+    }
+
+    .nav-links a{
+        color:var(--main-color)
+    }
+
+    .nav-links a:hover {
+        color: var(--secondary-color);
     }
 
     .nav-links.active {
