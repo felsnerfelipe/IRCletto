@@ -10,7 +10,7 @@ allowing you to see what's happening under the hood.
 >[!IMPORTANT]
 >bareIRC is in early development, and many of the features described here are not yet available. The features have two tags: WIP (Work In Progress), NIY (Not Implemented Yet).
 
-bareIRC does not aim to be a feature-rich IRC client such as [weechat](https://weechat.org/)
+bbIRC does not aim to be a feature-rich IRC client such as [weechat](https://weechat.org/)
  or [senpai](https://sr.ht/~taiite/senpai/)
 ; rather, it was mainly created as a tool to understand and debug IRC servers. By using it, you are directly talking to the server without any kind of intermediate step.
 
@@ -21,14 +21,14 @@ bareIRC does not aim to be a feature-rich IRC client such as [weechat](https://w
 
 ## installation (WIP)
 
-for the moment there is no real way of "installing" bareIRC, but you can compile directly from source!
+for the moment there is no real way of "installing" bbIRC, but you can compile directly from source!
 ```
-git clone https://github.com/Felipeshaolin/bareIRC.git
-cd bareIRC  
-nasm -f elf64 irc.s -o bin/bareIRC.o
-ld bin/bareIRC.o -o bin/bareIRC
+git clone https://github.com/Felipeshaolin/bbIRC.git
+cd bbIRC  
+nasm -f elf64 irc.s -o bin/bbIRC.o
+ld bin/bbIRC.o -o bin/bbIRC
 ```
-the executable should now be in the bareIRC/bin/ folder.
+the executable should now be in the bbIRC/bin/ folder.
 
 ## why?
 
@@ -36,4 +36,4 @@ This project was created as a means to remove the scary nature of IRC and shed l
 
  ## future
 
-My main goal for this project in the future is to port it to as many platforms as I can. For now, bareIRC works only on the Linux x86_64 operating system; a port to other architectures is inevitable, as well as ports to other operating systems. Furthermore, as time goes on, more and more quality-of-life improvements will be made.
+My main goal for this project in the future is to port it to as many platforms as I can. For now, bbIRC works only on the Linux x86_64 operating system; a port to other architectures is inevitable, as well as ports to other operating systems. Furthermore, as time goes on, more and more quality-of-life improvements will be made.
