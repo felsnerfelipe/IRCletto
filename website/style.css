@@ -28,12 +28,6 @@ body {
     font-size: 17px;
 }
 
-footer {
-    color:var(--main-color);
-    background-color: var(--secondary-color);
-    text-align: center;
-}
-
 .container {
     max-width: 800px; /* Limite la largeur du texte */
     margin-left: auto;
@@ -191,6 +185,16 @@ footer {
   max-width: 1920px;
   height: auto;
   display: block;
+}
+
+.footer {
+    position:fixed;
+    height: 20px;
+    bottom:0;
+    width:100%;
+    color:var(--main-color);
+    background-color: var(--secondary-color);
+    text-align: center;
 }
 
 /* Resize images */
