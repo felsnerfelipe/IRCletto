@@ -28,7 +28,7 @@ ConnectToAddress:
 	ret
 
 ReceiveData:
-; this function receives data from open server socket using recv syscall
+; this function receives data from open server socket using recv syscall and stores it in DataBuffer
 
 	
 	recv [SocketFd], DataBuffer, 1024, 0x40  ;receive data using recv syscall with MSG_DONTWAIT flag
@@ -75,8 +75,11 @@ WriteToServer:
 		write [SocketFd], UserBuffer, [LastInputSize] 	; write whole buffer to server
 		call WriteErrorCheck
 
-		write 1, StrSentThis, 20 						;for DEBUG
+		;for DEBUG
+		write 1, StrColorFBlue, 5
+		write 1, StrSentThis, 20 						
 		write 1, UserBuffer, [LastInputSize]
+		write 1, StrColorReset, 4
 
 		xor rax, rax                                    ;zero LastInputSize
 		mov [LastInputSize], rax

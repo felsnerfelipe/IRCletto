@@ -4,10 +4,11 @@
 ; it uses linux syscalls
 
 %include "macros.s"
-%include "error.s"
-%include "C_parser.s"
-%include "socket.s"
 %include "stdinout.s"
+%include "error.s"
+%include "socket.s"
+%include "C_parser.s"
+%include "S_parser.s"
 
 ; VARIABLES/DATA
 
@@ -142,7 +143,8 @@ global _start
 
 			;see if server sent anything
 			call ReceiveData
-
+			call AutoPong
+	
 			mov rax, [LastReadSize]
 			cmp rax,0
 			je .loop
