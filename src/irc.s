@@ -10,43 +10,67 @@
 %include "C_parser.s"
 %include "S_parser.s"
 
+
 ; VARIABLES/DATA
 
 section .data
 
 	;/ INITILIASED DATA /
 
+
+
+	/*used by args.S*/
+	argc         dq 0             ; number of arguments for executable
+	argv         dq 0             ; char** to argumentas
+	PointerToFunction dq 0; used by ReadArgs to save its pointer when reading the stack
+	/*used by args.S*/
+
+
+
 	variable     dq 0                     ; debug variable
+
+
+
+	/*used by socket.s*/
 	ipAddress    db 10, 227, 28, 30       ; the server's Ip address
-
-	LastInputSize  dq 0                   ; size of last input done by user	
-
-	LastReadSize    dq 0         ; size of last string read by ReadData
-
-	BytesStdin      dq 0         ; number of available bytes in stdin
-
-	timespec:							  ;timespec strcut (for nanosleep syscall)
-		dd 5							  ;time_t     tv_sec;   /* Seconds */
-		dq 0							  ;/* ... */  tv_nsec;  /* Nanoseconds [0, 999'999'999] */
-		dd 0
 		
 	sockaddr:                             ; sockaddr struct (for connect syscall)
 		dw 2                  			  ; AF_INET
 	    db 0x1A, 0x0B         			  ; port 6667, network byte order 
 	    db  185, 30, 166, 168 			  ; 185.30.166.168
-	    times 8 db 0 		
+	    times 8 db 0 	
 
-
-	CurrentChannel db "#the-dudes               " ; 25 bytes max
-
-	StrPRIVMSG db "PRIVMSG "; 8 bytes
-
-										      ;/strings/
-	StrServerConnect db 'connected to server!'; 20 bytes
+    StrServerConnect db 'connected to server!'; 20 bytes
 	StrSentThis      db 'Sent This to server:';   "
     StrClosedSocket  db 'Closed Socket!      ';   "
     StrGoodBye       db 'GoodBye!            ';   "
+	/*used by socket.s*/
 
+
+
+	LastInputSize  dq 0                   ; size of last input done by user	
+	LastReadSize    dq 0         ; size of last string read by ReadData
+	BytesStdin      dq 0         ; number of available bytes in stdin
+
+
+
+	/*used by irc.s*/
+	timespec:							  ;timespec strcut (for nanosleep syscall)
+		dd 5							  ;time_t     tv_sec;   /* Seconds */
+		dq 0							  ;/* ... */  tv_nsec;  /* Nanoseconds [0, 999'999'999] */
+		dd 0
+	/*used by irc.s*/
+
+
+
+	/*used by C_parser*/
+	CurrentChannel db "#the-dudes               " ; 25 bytes max
+	StrPRIVMSG db "PRIVMSG "; 8 bytes
+	/*used by C_parser*/
+
+
+	
+	/*used by stdinout.s*/	
 	;ESCAPE CODES
 
 	;for moving the cursor aorund a certain coordinate
@@ -87,7 +111,7 @@ section .data
     StrColorBWhite   db 0x1B,'[','4','7','m'
     
     StrColorReset    db 0x1B,'[','0','m'
-
+	/*used by stdinout.s*/
     
 	  
 				  
@@ -98,8 +122,6 @@ section .bss
 	UserBuffer      resb 1024      ; buffer to store user input 
 
 	temp            resq 1         ; used for general use in functions, should be initilised inside function and not reused
-
-	argc            resq 1         ; number of arguments passed by user
 	
 	DataBuffer      resb 1024      ; buffer to store data received from server
 	
