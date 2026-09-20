@@ -5,7 +5,7 @@ MAIN = irc.s
 all:
 	@mkdir -p bin
 	cd src && nasm -f elf64 $(MAIN) -o ../$(APP).o
-	ld bin/$(APP).o -o $(APP)
+	ld $(APP).o -o $(APP)
 
 run: all
 	$(APP)
