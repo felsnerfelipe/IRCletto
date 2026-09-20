@@ -1,5 +1,5 @@
 APP = bin/IRCletto
-MAIN = src/irc.s
+MAIN = irc.s
 .PHONY: all run debug
 
 all:
