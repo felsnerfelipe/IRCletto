@@ -9,7 +9,7 @@
 %include "socket.s"
 %include "C_parser.s"
 %include "S_parser.s"
-
+%include "args.s"
 
 ; VARIABLES/DATA
 
@@ -17,13 +17,17 @@ section .data
 
 	;/ INITILIASED DATA /
 
+	;/*used by args.s*/
+	StrHelpInfo db 'USAGE: IRCletto [OPTIONS] [SERVER ADDRESS] [SERVER PORT]',0x0A ; 57 bytes long
+	;/*used by args.s*/
 
 
-	/*used by args.S*/
+
+	;/*used by args.S*/
 	argc         dq 0             ; number of arguments for executable
 	argv         dq 0             ; char** to argumentas
 	PointerToFunction dq 0; used by ReadArgs to save its pointer when reading the stack
-	/*used by args.S*/
+	;/*used by args.S*/
 
 
 
@@ -31,7 +35,7 @@ section .data
 
 
 
-	/*used by socket.s*/
+	;/*used by socket.s*/
 	ipAddress    db 10, 227, 28, 30       ; the server's Ip address
 		
 	sockaddr:                             ; sockaddr struct (for connect syscall)
@@ -44,7 +48,7 @@ section .data
 	StrSentThis      db 'Sent This to server:';   "
     StrClosedSocket  db 'Closed Socket!      ';   "
     StrGoodBye       db 'GoodBye!            ';   "
-	/*used by socket.s*/
+	;/*used by socket.s*/
 
 
 
@@ -54,23 +58,22 @@ section .data
 
 
 
-	/*used by irc.s*/
+	;/*used by irc.s*/
 	timespec:							  ;timespec strcut (for nanosleep syscall)
 		dd 5							  ;time_t     tv_sec;   /* Seconds */
 		dq 0							  ;/* ... */  tv_nsec;  /* Nanoseconds [0, 999'999'999] */
 		dd 0
-	/*used by irc.s*/
+	;/*used by irc.s*/
 
 
 
-	/*used by C_parser*/
+	;/*used by C_parser*/
 	CurrentChannel db "#the-dudes               " ; 25 bytes max
 	StrPRIVMSG db "PRIVMSG "; 8 bytes
-	/*used by C_parser*/
-
+	;/*used by C_parser*/
 
 	
-	/*used by stdinout.s*/	
+	;/*used by stdinout.s*/	
 	;ESCAPE CODES
 
 	;for moving the cursor aorund a certain coordinate
@@ -111,7 +114,7 @@ section .data
     StrColorBWhite   db 0x1B,'[','4','7','m'
     
     StrColorReset    db 0x1B,'[','0','m'
-	/*used by stdinout.s*/
+	;/*used by stdinout.s*/
     
 	  
 				  
@@ -154,6 +157,8 @@ global _start
 		;connect to server
 		call CreateSocket
 		call ConnectToAddress
+
+		call ReadArgs
 
 		;wait for the connection to be really open
 		nanosleep timespec, 0
