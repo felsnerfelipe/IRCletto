@@ -8,7 +8,7 @@ all:
 	ld $(APP).o -o $(APP)
 
 run: all
-	$(APP)
+	$(APP) $(ARGS)
 
 debug:
 	@mkdir -p bin
