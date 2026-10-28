@@ -22,7 +22,13 @@ extern CloseSocket
 extern WriteToServer
 
 %include "C_parser.s"
-%include "S_parser.s"
+
+; S_parser
+extern ParseServerResponse
+extern AutoPong
+extern SendResponseToServer
+
+
 %include "args.s"
 
 ; VARIABLES/DATA
