@@ -13,6 +13,7 @@
 
 
 ; ERROR -1
+global CloseIfError
 CloseIfError:
 ;generic error
 
@@ -33,6 +34,7 @@ CloseIfError:
 			exit -1
 			
 ; ERROR -2
+global SocketErrorCheck
 SocketErrorCheck:
 
 		;compare return to 0
@@ -53,6 +55,7 @@ SocketErrorCheck:
 
 		
 ; ERROR -3
+global ConnectErrorCheck
 ConnectErrorCheck:
 
 		;compare return to 0
@@ -72,6 +75,7 @@ ConnectErrorCheck:
 			exit -3
 
 ; ERROR -4
+global WriteErrorCheck
 WriteErrorCheck:
 
 		;compare return to 0
@@ -89,4 +93,10 @@ WriteErrorCheck:
 						
 			;close the app with error
 			exit -4
+
+; ERROR -5
+WriteErrorNoAddress:
+    
+    ;close the app with error code
+    exit -5
 

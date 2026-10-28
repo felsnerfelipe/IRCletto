@@ -58,7 +58,7 @@ ReadArgs:
 PrintHelpInfo:
 
 	; print info
-	write 1, StrHelpInfo, 98
+	write 1, StrHelpInfo, 57 
 	
 	; exit gracefully
 	exit 0

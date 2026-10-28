@@ -1,39 +1,55 @@
+.intel_syntax noprefix
+# this code was written by Felsner Felipe on 2026
+# this is a simple IRC application written in pure x86
+# it uses linux syscalls
 
-; this code was written by Felsner Felipe on 2026
-; this is a simple IRC application written in pure x86
-; it uses linux syscalls
+# this file defines socket and networking functions 
 
-; this file defines socket and networking functions 
+.include "macros_GAS.s"
 
+.section .text
 
+.global CreateSocket
+.global ConnectToAddress
+.global ReceiveData
+.global ReadData
+.global CloseSocket
+.global WriteToServer
+
+.extern SocketErrorCheck
+.extern SocketFd
 CreateSocket:
-; this function opens a socket
+# this function opens a socket
 
-	socket 2, 1, 0               ; create AF_INET sock_stream socket
+	socket 2, 1, 0               # create AF_INET sock_stream socket
 	call SocketErrorCheck
 
-	mov [SocketFd],rax           ;store the socket's fd
+	mov [SocketFd],rax           #store the socket's fd
 
 	ret
 
+.extern ConnectErrorCheck
+.extern StrServerConnect
 ConnectToAddress:
-; this function tries to connect to a server address pointed to by the sockaddr struct
+# this function tries to connect to a server address pointed to by the sockaddr struct
 
 	
-	connect [SocketFd], sockaddr, 16  ;connect to server and call CloseIfError on error
+	connect [SocketFd], sockaddr, 16  #connect to server and call CloseIfError on error
 	call ConnectErrorCheck
 
-	write 1, StrServerConnect, 20     ;for DEBUG
+	write 1, StrServerConnect, 20     #for DEBUG
 
 	ret
 
+.extern DataBuffer
+.extern LastReadSize
 ReceiveData:
-; this function receives data from open server socket using recv syscall and stores it in DataBuffer
+# this function receives data from open server socket using recv syscall and stores it in DataBuffer
 
 	
-	recv [SocketFd], DataBuffer, 1024, 0x40  ;receive data using recv syscall with MSG_DONTWAIT flag
+	recv [SocketFd], DataBuffer, 1024, 0x40  #receive data using recv syscall with MSG_DONTWAIT flag
 
-	; to avoid error when recv returns -1 
+	# to avoid error when recv returns -1 
 	cmp rax, 0 
 	jl .zero
 	jb .update
@@ -49,22 +65,28 @@ ReceiveData:
 		mov [LastReadSize], rax
 		ret
 
-
+.extern CloseIfError
+.extern WriteErrorCheck
 ReadData:
 
-	read [SocketFd], DataBuffer, 1024   ;receive data with read syscall
+	read [SocketFd], DataBuffer, 1024   #receive data with read syscall
 	mov [LastReadSize], rax
 	call CloseIfError
 	ret
 
 
+.extern LastInputSize
+.extern UserBuffer
+.extern StrColorFBlue
+.extern StrColorReset
+.extern StrSentThis
 WriteToServer:
 
-	mov rax, UserBuffer               					;compare the last input char to '\n'
+	lea rax, [rip+UserBuffer]               					#compare the last input char to '\n'
 	add rax, [LastInputSize]
 	dec rax
 	
-	mov dl, byte [rax]									; put last char in rsi
+	mov dl, BYTE PTR [rax]									# put last char in rsi
 	
 	cmp dl, 10
 	je .write
@@ -72,28 +94,29 @@ WriteToServer:
 	
 	.write:
 		
-		write [SocketFd], UserBuffer, [LastInputSize] 	; write whole buffer to server
+		write [SocketFd], UserBuffer, [LastInputSize] 	# write whole buffer to server
 		call WriteErrorCheck
 
-		;for DEBUG
+		#for DEBUG
 		write 1, StrColorFBlue, 5
 		write 1, StrSentThis, 20 						
 		write 1, UserBuffer, [LastInputSize]
 		write 1, StrColorReset, 4
 
-		xor rax, rax                                    ;zero LastInputSize
+		xor rax, rax                                    #zero LastInputSize
 		mov [LastInputSize], rax
 		
 		ret
 		
 	.notWrite:
 		
-		ret  											; do nothing
+		ret  											# do nothing
 	
 
+.extern StrClosedSocket
 CloseSocket:
 
-	;close socketFd
+	#close socketFd
 	close [SocketFd]
 
 	write 1, StrClosedSocket, 20

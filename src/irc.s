@@ -6,7 +6,14 @@
 %include "macros.s"
 %include "stdinout.s"
 %include "error.s"
-%include "socket.s"
+
+extern CreateSocket
+extern ConnectToAddress
+extern ReceiveData
+extern ReadData
+extern CloseSocket
+extern WriteToServer
+
 %include "C_parser.s"
 %include "S_parser.s"
 %include "args.s"
@@ -24,9 +31,15 @@ section .data
 
 
 	;/*used by args.S*/
+    global argc
+    global argv
+    global PointerToFunction
+    global ipnumber
+
 	argc         dq 0             ; number of arguments for executable
 	argv         dq 0             ; char** to argumentas
 	PointerToFunction dq 0; used by ReadArgs to save its pointer when reading the stack
+    ipnumber     db '000'
 	;/*used by args.S*/
 
 
@@ -36,6 +49,17 @@ section .data
 
 
 	;/*used by socket.s*/
+    global ipAddress
+    global sockaddr
+    global StrServerConnect
+    global StrSentThis
+    global StrClosedSocket
+    global StrGoodBye
+    global LastInputSize
+    global LastReadSize
+    global BytesStdin
+
+
 	ipAddress    db 10, 227, 28, 30       ; the server's Ip address
 		
 	sockaddr:                             ; sockaddr struct (for connect syscall)
@@ -44,12 +68,13 @@ section .data
 	    db  185, 30, 166, 168 			  ; 185.30.166.168
 	    times 8 db 0 	
 
+
+
     StrServerConnect db 'connected to server!'; 20 bytes
 	StrSentThis      db 'Sent This to server:';   "
     StrClosedSocket  db 'Closed Socket!      ';   "
     StrGoodBye       db 'GoodBye!            ';   "
 	;/*used by socket.s*/
-
 
 
 	LastInputSize  dq 0                   ; size of last input done by user	
@@ -99,6 +124,7 @@ section .data
     StrColorFRed     db 0x1B,'[','3','1','m'
     StrColorFBGreen  db 0x1B,'[','3','2','m'
     StrColorFYellow  db 0x1B,'[','3','3','m'
+    global StrColorFBlue
     StrColorFBlue    db 0x1B,'[','3','4','m'
     StrColorFMagenta db 0x1B,'[','3','5','m'
     StrColorFCyan    db 0x1B,'[','3','6','m'
@@ -113,6 +139,7 @@ section .data
     StrColorBCyan    db 0x1B,'[','4','6','m'
     StrColorBWhite   db 0x1B,'[','4','7','m'
     
+    global StrColorReset
     StrColorReset    db 0x1B,'[','0','m'
 	;/*used by stdinout.s*/
     
@@ -122,12 +149,15 @@ section .bss
 
 	;/ UNITILIASED DATA /
 
+    global UserBuffer
 	UserBuffer      resb 1024      ; buffer to store user input 
 
 	temp            resq 1         ; used for general use in functions, should be initilised inside function and not reused
 	
+    global DataBuffer
 	DataBuffer      resb 1024      ; buffer to store data received from server
 	
+    global SocketFd
 	SocketFd        resq 0         ; the socket file descriptor
 
 	;used by GetSizeTerminal
@@ -149,16 +179,16 @@ global _start
 
 	_start:
 
-		call GetSizeTerminal
+	    ;call GetSizeTerminal
 
 		;clean terminal
 		call ClearTerminal
+
+		call ReadArgs
 		
 		;connect to server
 		call CreateSocket
 		call ConnectToAddress
-
-		call ReadArgs
 
 		;wait for the connection to be really open
 		nanosleep timespec, 0
