@@ -4,9 +4,16 @@
 ; it uses linux syscalls
 
 %include "macros.s"
-%include "stdinout.s"
+
+; stdinout
+extern GetSizeTerminal
+extern ClearTerminal
+extern ReadUserInput
+extern PrintData
+
 %include "error.s"
 
+; socket.s
 extern CreateSocket
 extern ConnectToAddress
 extern ReceiveData
@@ -107,12 +114,18 @@ section .data
 	StrEscapeEnd     db 'B'
 	StrZero          db '0'
     
+    global StrGoDown999Cursor
     StrGoDown999Cursor  db 0x1b,'[','9','9','9','B' ; 6 bytes
+    global StrGoUp1Cursor
     StrGoUp1Cursor   db 0x1b,'[','1','A' 			; 4 bytes
+    global StrNewLine
     StrNewLine       db 10
+    global StrGoRight999Cursor
     StrGoRight999Cursor db 0x1b,'[','9','9','9','C' ; 6 bytes
+    global StrPosReport
     StrPosReport     db 0x1b,'[','6','n'         ; 4 bytes
     StrClearLine     db	0x1b,'[','2','K'	     ; 4 bytes
+    global StrClearScreen
     StrClearScreen   db 0x1B, 0x5B, 0x32, 0x4A   ; 4 bytes
     StrHomePos       db 0x1b,'[H'                ; 3 bytes
     StrClearBehind   db 0x1b,'[','1','J'         ; 4 bytes
@@ -123,6 +136,7 @@ section .data
     StrColorFBlack   db 0x1B,'[','3','0','m'
     StrColorFRed     db 0x1B,'[','3','1','m'
     StrColorFBGreen  db 0x1B,'[','3','2','m'
+    global StrColorFYellow
     StrColorFYellow  db 0x1B,'[','3','3','m'
     global StrColorFBlue
     StrColorFBlue    db 0x1B,'[','3','4','m'
@@ -161,11 +175,18 @@ section .bss
 	SocketFd        resq 0         ; the socket file descriptor
 
 	;used by GetSizeTerminal
+    global PosReportBuffer
 	PosReportBuffer resb 10        ; used for getting terminal dimensions
+
+    global FirstNumber
 	FirstNumber     resb 30		   ; number string given by report
+    global SecondNumber
 	SecondNumber    resb 3         ;               "
 
+    global OriginalTerminalSettings
 	OriginalTerminalSettings resb 60; settings for the terminal given by ioctl 
+
+    global TerminalSettings
 	TerminalSettings resb 60       ; settings for the terminal used by ioctl 
 
 
