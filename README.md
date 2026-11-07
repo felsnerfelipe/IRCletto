@@ -21,11 +21,13 @@ IRCletto does not aim to be a feature-rich IRC client such as [weechat](https://
 
 ## installation (WIP)
 
+>[!IMPORTANT]
+>for compiling you will need a copy of gcc!
+
 for the moment there is no real way of "installing" IRCletto, but you can compile directly from source!
 ```
 git clone https://github.com/felsnerfelipe/IRCletto.git
-cd IRCletto  
-make all
+make 
 ```
 the executable should now be in the IRCletto/bin/ folder.
 
