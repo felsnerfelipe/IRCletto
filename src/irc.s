@@ -221,11 +221,11 @@
 # LABELS/FUNCTIONS
 
 .section .text
-.global _start
+.global main 
 		
 #   / MAIN /
 
-	_start:
+	main:
 
 	    #call GetSizeTerminal
 
