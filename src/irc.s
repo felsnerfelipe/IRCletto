@@ -5,7 +5,7 @@
 # this is a simple IRC application written in pure x86
 # it uses linux syscalls
 
-.include "macros_GAS.s"
+.include "./macros_GAS.s"
 
 # stdinout
 .extern GetSizeTerminal
@@ -221,11 +221,11 @@
 # LABELS/FUNCTIONS
 
 .section .text
-.global main 
+.global _start 
 		
 #   / MAIN /
 
-	main:
+	_start:
 
 	    #call GetSizeTerminal
 
