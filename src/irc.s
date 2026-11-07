@@ -78,8 +78,8 @@
 
 
 	#/*used by socket.s*/
-    .global ipA.intress
-    .global socka.intr
+    .global ipAddress
+    .global sockaddr
     .global StrServerConnect
     .global StrSentThis
     .global StrClosedSocket
