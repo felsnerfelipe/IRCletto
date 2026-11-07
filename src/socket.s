@@ -5,8 +5,6 @@
 
 # this file defines socket and networking functions 
 
-.include "macros_GAS.s"
-
 .section .text
 
 .global CreateSocket
