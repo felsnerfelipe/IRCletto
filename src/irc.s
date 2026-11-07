@@ -11,7 +11,12 @@ extern ClearTerminal
 extern ReadUserInput
 extern PrintData
 
-%include "error.s"
+;error.s
+extern CloseIfError
+extern WriteErrorNoAddress
+extern WriteErrorCheck
+extern SocketErrorCheck
+extern ConnectErrorCheck
 
 ; socket.s
 extern CreateSocket
@@ -21,15 +26,22 @@ extern ReadData
 extern CloseSocket
 extern WriteToServer
 
-%include "C_parser.s"
+; C_parser
+extern ParseInput
+extern ParseInput
+extern FormatPRIVMSG
 
 ; S_parser
 extern ParseServerResponse
 extern AutoPong
 extern SendResponseToServer
 
+;TODO:  broken! make work 
+extern ReadArgs
+extern PrintHelpInfo
+extern IpToAdress
+extern StrToNumber
 
-%include "args.s"
 
 ; VARIABLES/DATA
 
@@ -38,6 +50,8 @@ section .data
 	;/ INITILIASED DATA /
 
 	;/*used by args.s*/
+    global StrHelpInfo
+
 	StrHelpInfo db 'USAGE: IRCletto [OPTIONS] [SERVER ADDRESS] [SERVER PORT]',0x0A ; 57 bytes long
 	;/*used by args.s*/
 
@@ -106,6 +120,9 @@ section .data
 
 
 	;/*used by C_parser*/
+    global CurrentChannel
+    global StrPRIVMSG
+
 	CurrentChannel db "#the-dudes               " ; 25 bytes max
 	StrPRIVMSG db "PRIVMSG "; 8 bytes
 	;/*used by C_parser*/
@@ -115,18 +132,19 @@ section .data
 	;ESCAPE CODES
 
 	;for moving the cursor aorund a certain coordinate
+    global StrGoDown999Cursor
+    global StrGoUp1Cursor
+    global StrNewLine
+    global StrGoRight999Cursor
+
 	StrEscapeStart   db 0x1b,'['
 	StrEscapeMiddle  db '};{'
 	StrEscapeEnd     db 'B'
 	StrZero          db '0'
     
-    global StrGoDown999Cursor
     StrGoDown999Cursor  db 0x1b,'[','9','9','9','B' ; 6 bytes
-    global StrGoUp1Cursor
     StrGoUp1Cursor   db 0x1b,'[','1','A' 			; 4 bytes
-    global StrNewLine
     StrNewLine       db 10
-    global StrGoRight999Cursor
     StrGoRight999Cursor db 0x1b,'[','9','9','9','C' ; 6 bytes
     global StrPosReport
     StrPosReport     db 0x1b,'[','6','n'         ; 4 bytes
@@ -168,8 +186,9 @@ section .data
 section .bss
 
 	;/ UNITILIASED DATA /
-
     global UserBuffer
+    global temp
+
 	UserBuffer      resb 1024      ; buffer to store user input 
 
 	temp            resq 1         ; used for general use in functions, should be initilised inside function and not reused
