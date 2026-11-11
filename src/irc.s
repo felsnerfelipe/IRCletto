@@ -15,14 +15,14 @@
 
 #error.s
 .extern CloseIfError
-.extern WriteErrorNoA.intress
+.extern WriteErrorNoAddress
 .extern WriteErrorCheck
 .extern SocketErrorCheck
 .extern ConnectErrorCheck
 
 # socket.s
 .extern CreateSocket
-.extern ConnectToA.intress
+.extern ConnectToAddress
 .extern ReceiveData
 .extern ReadData
 .extern CloseSocket
