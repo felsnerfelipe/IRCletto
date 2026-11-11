@@ -19,6 +19,7 @@
 .extern UserBuffer
 .extern WriteToServer 
 .extern StrPRIVMSG
+.extern CurrentChannel
 
 ParseInput:
 #main function that uses all the functions defined here to parse and treat user input
@@ -27,6 +28,7 @@ ParseInput:
 	call ReadUserInput
 	call CheckIfCommand
 	#call WriteToServer
+
 
 CheckIfCommand:
 #function that checks if User inputed string starts with an "/" 
@@ -44,15 +46,78 @@ CheckIfCommand:
 			
 		.True:
 
-			mov al,' '
-			mov [UserBuffer], al
+            mov al,' '
+            mov [UserBuffer], al
 
-			call WriteToServer
-			
-			ret
+            #check if the JOIN command was typed 
+            call HandleJoin 
+            cmp rax,0
+            jz .writeToServer 
+            
+            .writeToServer:
+			    call WriteToServer
 
 	.NoInput:
 		ret
+
+#functions to handle specific commands
+
+HandleJoin:
+# function that, if it detects the Join command, will change the current Channel
+# returns 0 in rax if join was detected ifnot return 1 
+    
+    #get pointer to UserBuffer String
+    lea esi, [rip + UserBuffer]  
+
+    # part that copies and upper-cases the string onto edi
+    xor edi, edi
+    mov rcx, 4
+    .loopUpperCase:
+        inc esi
+        shl edi, 8 
+        mov al, BYTE PTR [esi]
+        cmp al, 0x5B
+        jg .decrement
+        jmp .loopBack
+    .decrement:
+        sub al, 0x20
+        mov dil, al 
+    .loopBack:
+        loop .loopUpperCase
+    
+    #check if edi has "JOIN" in it
+    cmp edi, 0x4A4F494E
+    mov rax, 1 # return status
+    jne .return 
+
+    #zero out CurrentChannel
+    mov rcx,23 
+    lea edi, [rip + CurrentChannel]
+    .ZeroCurrentChannelLoop:
+        mov [edi], BYTE PTR ' ' 
+        inc edi
+        loop .ZeroCurrentChannelLoop
+
+    mov rcx, [LastInputSize]
+    dec rcx # to avoid '\n'
+    sub rcx, 6 # "/join " -> 6 chars
+    add esi, 2 # put pointer on start of string
+    lea edi, [rip + CurrentChannel]
+    .changeChannel:
+        #copies the channel name into currentChannel  
+        mov bl, [esi]
+        mov [edi], bl 
+        inc edi  
+        inc esi
+        loop .changeChannel
+
+    #return status
+    mov rax, 0
+
+    .return:
+        ret 
+
+
 
 FormatPRIVMSG:
 # puts the string inputed by user in usable PRIVMSG <channel> :<message> format
