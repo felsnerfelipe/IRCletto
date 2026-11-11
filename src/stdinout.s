@@ -20,6 +20,7 @@
 .extern StrGoDown999Cursor
 .extern StrPosReport
 .extern PosReportBuffer
+.extern UserChar
 
 
 GetSizeTerminal:
@@ -135,12 +136,31 @@ ReadUserInput:
 	# info available
 	.Read: 			
 
-		
-		read 0, UserBuffer, 1024 
-		mov [LastInputSize], rax    
-		# update number of characters read
-		xor rax,rax
-		mov [BytesStdin], rax
+        lea r10, [rip + UserBuffer]
+        
+        xor rax,rax
+        mov [LastInputSize], rax
+    
+        .ReadLoop:
+            
+            push r10
+		    read 0, UserChar, 1  
+            pop r10
+
+            dec QWORD PTR [BytesStdin]
+            inc QWORD PTR [LastInputSize]
+
+            mov al, [UserChar]
+            cmp al, '\n'
+            je .endLoop            
+
+                mov [r10], al    
+                inc r10
+                jmp .ReadLoop
+
+        .endLoop:
+        mov [r10], al    
+
 		ret 
 	
 

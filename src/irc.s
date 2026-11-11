@@ -138,6 +138,9 @@
     .global StrGoUp1Cursor
     .global StrNewLine
     .global StrGoRight999Cursor
+    .global UserChar
+
+    UserChar: .byte 0 #char used by ReadUserInput
 
 	StrEscapeStart:   .byte 0x1b,'['
 	StrEscapeMiddle:  .ascii "}#{"
